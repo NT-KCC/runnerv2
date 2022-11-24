@@ -15,6 +15,7 @@ namespace SpriteKind {
     export const God = SpriteKind.create()
     export const coin = SpriteKind.create()
     export const TestMode = SpriteKind.create()
+    export const coin2 = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Orb, function (sprite, otherSprite) {
     Ghost.destroy()
@@ -26,7 +27,18 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Orb, function (sprite, otherSpri
     pill2.destroy()
     pill3.destroy()
     Runner.destroy()
+    coins.destroy()
     tiles.setCurrentTilemap(tilemap`level2`)
+    coin2 = sprites.create(img`
+        . . b b b b . . 
+        . b 5 5 5 5 b . 
+        b 5 d 3 3 d 5 b 
+        b 5 3 5 5 1 5 b 
+        c 5 3 5 5 1 d c 
+        c d d 1 1 d d c 
+        . f d d d d f . 
+        . . f f f f . . 
+        `, SpriteKind.coin2)
     Runner2 = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . f f f f f f f . . . . 
@@ -157,6 +169,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Orb, function (sprite, otherSpri
     tiles.placeOnTile(reward2, tiles.getTileLocation(10, 9))
     tiles.placeOnRandomTile(C2, sprites.dungeon.darkGroundCenter)
     tiles.placeOnRandomTile(K2, sprites.dungeon.floorMixed)
+    tiles.placeOnRandomTile(coin2, sprites.dungeon.darkGroundCenter)
     tiles.placeOnRandomTile(Runner2, sprites.dungeon.floorDarkDiamond)
     tiles.placeOnRandomTile(pill4, sprites.dungeon.collectibleInsignia)
     tiles.placeOnRandomTile(Key, sprites.dungeon.chestClosed)
@@ -164,12 +177,118 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Orb, function (sprite, otherSpri
     K2.follow(Runner2, 55)
     controller.moveSprite(Runner2, 110, 110)
     scene.cameraFollowSprite(Runner2)
-    info.setScore(0)
+    animation.runImageAnimation(
+    coin2,
+    [img`
+        . . b b b b . . 
+        . b 5 5 5 5 b . 
+        b 5 d 3 3 d 5 b 
+        b 5 3 5 5 1 5 b 
+        c 5 3 5 5 1 d c 
+        c d d 1 1 d d c 
+        . f d d d d f . 
+        . . f f f f . . 
+        `,img`
+        . . b b b . . . 
+        . b 5 5 5 b . . 
+        b 5 d 3 d 5 b . 
+        b 5 3 5 1 5 b . 
+        c 5 3 5 1 d c . 
+        c 5 d 1 d d c . 
+        . f d d d f . . 
+        . . f f f . . . 
+        `,img`
+        . . . b b . . . 
+        . . b 5 5 b . . 
+        . b 5 d 1 5 b . 
+        . b 5 3 1 5 b . 
+        . c 5 3 1 d c . 
+        . c 5 1 d d c . 
+        . . f d d f . . 
+        . . . f f . . . 
+        `,img`
+        . . . b b . . . 
+        . . b 5 5 b . . 
+        . . b 1 1 b . . 
+        . . b 5 5 b . . 
+        . . b d d b . . 
+        . . c d d c . . 
+        . . c 3 3 c . . 
+        . . . f f . . . 
+        `,img`
+        . . . b b . . . 
+        . . b 5 5 b . . 
+        . b 5 1 d 5 b . 
+        . b 5 1 3 5 b . 
+        . c d 1 3 5 c . 
+        . c d d 1 5 c . 
+        . . f d d f . . 
+        . . . f f . . . 
+        `,img`
+        . . . b b b . . 
+        . . b 5 5 5 b . 
+        . b 5 d 3 d 5 b 
+        . b 5 1 5 3 5 b 
+        . c d 1 5 3 5 c 
+        . c d d 1 d 5 c 
+        . . f d d d f . 
+        . . . f f f . . 
+        `],
+    100,
+    true
+    )
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.pill, function (sprite, otherSprite) {
-    Runner.sayText("+1 fireball", 500, false)
-    info.changeScoreBy(1)
+    Runner.sayText("Killing all Entitys", 1000, false)
+    Killer.destroy()
+    Chase.destroy()
     pill1.destroy()
+    pause(5000)
+    Chase = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . f f f f . f f f f . . . . 
+        . . . f 2 1 f . f 2 1 f . . . . 
+        . . . f 1 1 f . f 1 1 f . . . . 
+        . . . f 1 2 f . f 1 2 f . . . . 
+        . . . f f f f . f f f f . . . . 
+        f f . . . . . . . . . . . f f . 
+        f f f . . . . . . . . . f f f f 
+        f 2 f f f . . . . . . f f 2 2 f 
+        f 1 2 2 f f f f f f f f 2 1 1 f 
+        f 1 1 1 1 1 1 1 1 1 1 1 1 1 f f 
+        f f f f f 2 2 1 1 1 1 2 2 f f . 
+        . . . . f f f f f f f f f f . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Chase)
+    Killer = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . 5 5 5 5 . 5 5 5 5 . . . . 
+        . . . 5 5 5 5 . 5 5 5 5 . . . . 
+        . . . 5 5 5 5 . 5 5 5 5 . . . . 
+        . . . 5 5 5 5 . 5 5 5 5 . . . . 
+        5 5 . 5 5 5 5 . 5 5 5 5 . . 5 5 
+        5 5 . . . . . . . . . . . 5 5 5 
+        5 5 5 5 5 . . . . . . . . 5 5 5 
+        5 5 5 5 5 5 . . . . . . 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        . . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Killer)
+    tiles.placeOnTile(Chase, tiles.getTileLocation(8, 10))
+    tiles.placeOnTile(Killer, tiles.getTileLocation(14, 14))
+    Killer.follow(Runner, 45)
+    Chase.follow(Runner, 95)
+})
+sprites.onOverlap(SpriteKind.P2, SpriteKind.coin2, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+    music.baDing.play()
+    tiles.placeOnRandomTile(coins, sprites.dungeon.darkGroundCenter)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.pill2, function (sprite, otherSprite) {
     Runner.sayText("Teleporting...", 500, false)
@@ -319,6 +438,11 @@ sprites.onOverlap(SpriteKind.barrier, SpriteKind.P2, function (sprite, otherSpri
     tiles.placeOnTile(Runner2, tiles.getTileLocation(7, 9))
     barrier.sayText("You need a key!", 2000, false)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.coin, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+    music.baDing.play()
+    tiles.placeOnRandomTile(coins, assets.tile`transparency16`)
+})
 sprites.onOverlap(SpriteKind.God, SpriteKind.C2, function (sprite, otherSprite) {
     info.changeScoreBy(2)
     C2.destroy(effects.fire, 2000)
@@ -370,7 +494,9 @@ let Key: Sprite = null
 let K2: Sprite = null
 let C2: Sprite = null
 let Runner2: Sprite = null
+let coin2: Sprite = null
 let Ghost: Sprite = null
+let coins: Sprite = null
 let pill3: Sprite = null
 let pill2: Sprite = null
 let pill1: Sprite = null
@@ -504,7 +630,7 @@ pill3 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.pill3)
-let coins = sprites.create(img`
+coins = sprites.create(img`
     . . b b b b . . 
     . b 5 5 5 5 b . 
     b 5 d 3 3 d 5 b 

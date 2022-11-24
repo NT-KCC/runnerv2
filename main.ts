@@ -171,58 +171,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.pill, function (sprite, otherSpr
     info.changeScoreBy(1)
     pill1.destroy()
 })
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (1 <= info.score()) {
-        projectile = sprites.createProjectileFromSprite(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 3 1 1 . . . . . . . 
-            . . . . . 3 3 . 3 1 . . . . . . 
-            . . 3 2 2 3 . . . 1 . . . . . . 
-            . 3 3 1 2 2 . . . 3 1 . . . . . 
-            . 3 1 1 1 3 2 2 . 3 1 . . . . . 
-            . 3 1 1 1 3 3 3 3 3 1 2 2 2 . . 
-            . 3 1 1 1 1 1 1 1 3 1 1 1 1 . . 
-            . 3 1 1 1 3 3 3 3 3 1 2 2 2 . . 
-            . 3 1 1 1 3 2 2 . 3 1 . . . . . 
-            . 3 3 1 2 2 . . . 3 1 . . . . . 
-            . . 3 2 2 3 . . . 1 . . . . . . 
-            . . . . . 3 3 . 3 1 . . . . . . 
-            . . . . . . 3 1 1 . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, Runner, -100, 0)
-        projectile.startEffect(effects.fire, 5000)
-        info.changeScoreBy(-1)
-    } else {
-        Runner.sayText("Reloading!", 5000, false)
-        pause(5000)
-        info.setScore(1)
-    }
-})
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Killer, function (sprite, otherSprite) {
-    Killer.destroy(effects.fire, 2000)
-    pause(2700)
-    Killer = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . 5 5 5 5 . 5 5 5 5 . . . . 
-        . . . 5 5 5 5 . 5 5 5 5 . . . . 
-        . . . 5 5 5 5 . 5 5 5 5 . . . . 
-        . . . 5 5 5 5 . 5 5 5 5 . . . . 
-        5 5 . 5 5 5 5 . 5 5 5 5 . . 5 5 
-        5 5 . . . . . . . . . . . 5 5 5 
-        5 5 5 5 5 . . . . . . . . 5 5 5 
-        5 5 5 5 5 5 . . . . . . 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        . . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Killer)
-    tiles.placeOnTile(Killer, tiles.getTileLocation(14, 14))
-    Killer.follow(Runner, 55)
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.pill2, function (sprite, otherSprite) {
     Runner.sayText("Teleporting...", 500, false)
     tiles.placeOnRandomTile(Runner, assets.tile`transparency16`)
@@ -278,34 +226,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.pill3, function (sprite, otherSp
     tiles.placeOnRandomTile(Runner, assets.tile`transparency16`)
     Chase.follow(Runner)
     Killer.follow(Runner)
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (1 <= info.score()) {
-        projectile = sprites.createProjectileFromSprite(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . 1 1 3 . . . . . . 
-            . . . . . . 1 3 . 3 3 . . . . . 
-            . . . . . . 1 . . . 3 2 2 3 . . 
-            . . . . . 1 3 . . . 2 2 1 3 3 . 
-            . . . . . 1 3 . 2 2 3 1 1 1 3 . 
-            . . 2 2 2 1 3 3 3 3 3 1 1 1 3 . 
-            . . 1 1 1 1 3 1 1 1 1 1 1 1 3 . 
-            . . 2 2 2 1 3 3 3 3 3 1 1 1 3 . 
-            . . . . . 1 3 . 2 2 3 1 1 1 3 . 
-            . . . . . 1 3 . . . 2 2 1 3 3 . 
-            . . . . . . 1 . . . 3 2 2 3 . . 
-            . . . . . . 1 3 . 3 3 . . . . . 
-            . . . . . . . 1 1 3 . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, Runner, 100, 0)
-        projectile.startEffect(effects.fire, 5000)
-        info.changeScoreBy(-1)
-    } else {
-        Runner.sayText("Reloading!", 5000, false)
-        pause(5000)
-        info.setScore(1)
-    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Killer, function (sprite, otherSprite) {
     game.over(false, effects.smiles)
@@ -392,30 +312,6 @@ sprites.onOverlap(SpriteKind.P2, SpriteKind.pill4, function (sprite, otherSprite
     reward2.destroy()
     Key.destroy()
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.C2, function (sprite, otherSprite) {
-    C2.destroy(effects.fire, 2000)
-    pause(5000)
-    C2 = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . 1 1 1 1 . 1 1 1 1 . . . . 
-        . . . 1 2 f 1 . 1 2 f 1 . . . . 
-        . . . 1 f f 1 . 1 f f 1 . . . . 
-        . . . 1 f 2 1 . 1 f 2 1 . . . . 
-        . . . 1 1 1 1 . 1 1 1 1 . . . . 
-        1 1 . . . . . . . . . . . 1 1 . 
-        1 1 1 . . . . . . . . . 1 1 1 1 
-        1 2 1 1 1 . . . . . . 1 1 2 2 1 
-        1 f 2 2 1 1 1 1 1 1 1 1 2 f f 1 
-        1 f f f f f f f f f f f f f 1 1 
-        1 1 1 1 1 2 2 f f f f 2 2 1 1 . 
-        . . . . 1 1 1 1 1 1 1 1 1 1 . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.C2)
-    tiles.placeOnRandomTile(C2, sprites.dungeon.darkGroundCenter)
-    C2.follow(Runner2, 95)
-})
 info.onScore(100, function () {
     game.over(true)
 })
@@ -459,63 +355,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Chase, function (sprite, otherSp
         `, SpriteKind.Orb)
     tiles.placeOnTile(reward, tiles.getTileLocation(14, 14))
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.K2, function (sprite, otherSprite) {
-    K2.destroy(effects.fire, 2000)
-    pause(5000)
-    K2 = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . 2 2 2 2 . 2 2 2 2 . . . . 
-        . . . 2 f f 2 . 2 f f 2 . . . . 
-        . . . 2 f f 2 . 2 f f 2 . . . . 
-        . . . 2 2 2 2 . 2 2 2 2 . . . . 
-        2 2 . 2 2 2 2 . 2 2 2 2 . . 2 2 
-        2 2 . . . . . . . . . . . 2 2 2 
-        2 2 2 2 2 . . . . . . . . 2 2 2 
-        2 2 2 2 2 2 . . . . . . 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-        . . 2 2 2 2 2 2 2 2 2 2 2 2 . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.K2)
-    tiles.placeOnRandomTile(K2, sprites.dungeon.floorMixed)
-    K2.follow(Runner2, 55)
-})
 sprites.onOverlap(SpriteKind.P2, SpriteKind.reward2, function (sprite, otherSprite) {
     game.over(true)
-})
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Chase, function (sprite, otherSprite) {
-    Chase.destroy(effects.fire, 2000)
-    pause(5000)
-    Chase = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . f f f f . f f f f . . . . 
-        . . . f 2 1 f . f 2 1 f . . . . 
-        . . . f 1 1 f . f 1 1 f . . . . 
-        . . . f 1 2 f . f 1 2 f . . . . 
-        . . . f f f f . f f f f . . . . 
-        f f . . . . . . . . . . . f f . 
-        f f f . . . . . . . . . f f f f 
-        f 2 f f f . . . . . . f f 2 2 f 
-        f 1 2 2 f f f f f f f f 2 1 1 f 
-        f 1 1 1 1 1 1 1 1 1 1 1 1 1 f f 
-        f f f f f 2 2 1 1 1 1 2 2 f f . 
-        . . . . f f f f f f f f f f . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Chase)
-    tiles.placeOnTile(Chase, tiles.getTileLocation(8, 10))
-    Chase.follow(Runner, 95)
 })
 sprites.onOverlap(SpriteKind.God, SpriteKind.K2, function (sprite, otherSprite) {
     K2.destroy(effects.smiles, 2000)
     info.changeScoreBy(98)
 })
 let KillerKiller: Sprite = null
-let projectile: Sprite = null
 let barrier: Sprite = null
 let pill4: Sprite = null
 let reward2: Sprite = null
@@ -678,7 +525,7 @@ tiles.placeOnRandomTile(pill1, sprites.dungeon.collectibleInsignia)
 tiles.placeOnRandomTile(coins, assets.tile`transparency16`)
 tiles.placeOnRandomTile(pill2, sprites.dungeon.buttonOrange)
 tiles.placeOnRandomTile(pill3, sprites.dungeon.greenOuterNorth2)
-info.setScore(1)
+info.setScore(0)
 Killer.follow(Runner, 45)
 Chase.follow(Runner, 95)
 controller.moveSprite(Runner, 110, 110)

@@ -18,16 +18,15 @@ namespace SpriteKind {
     export const coin2 = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Orb, function (sprite, otherSprite) {
-    Ghost.destroy()
     Runner.destroy()
-    reward.destroy()
-    Killer.destroy()
-    Chase.destroy()
-    pill1.destroy()
-    pill2.destroy()
-    pill3.destroy()
-    Runner.destroy()
-    coins.destroy()
+    tiles.placeOnTile(Chase, tiles.getTileLocation(1, 18))
+    tiles.placeOnTile(coins, tiles.getTileLocation(1, 18))
+    tiles.placeOnTile(Killer, tiles.getTileLocation(1, 18))
+    tiles.placeOnTile(pill1, tiles.getTileLocation(1, 18))
+    tiles.placeOnTile(pill2, tiles.getTileLocation(1, 18))
+    tiles.placeOnTile(pill3, tiles.getTileLocation(1, 18))
+    tiles.placeOnTile(reward, tiles.getTileLocation(1, 18))
+    tiles.placeOnTile(reward, tiles.getTileLocation(1, 18))
     tiles.setCurrentTilemap(tilemap`level2`)
     coin2 = sprites.create(img`
         . . b b b b . . 
@@ -288,7 +287,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.pill, function (sprite, otherSpr
 sprites.onOverlap(SpriteKind.P2, SpriteKind.coin2, function (sprite, otherSprite) {
     info.changeScoreBy(1)
     music.baDing.play()
-    tiles.placeOnRandomTile(coins, sprites.dungeon.darkGroundCenter)
+    tiles.placeOnRandomTile(coin2, sprites.dungeon.darkGroundCenter)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.pill2, function (sprite, otherSprite) {
     Runner.sayText("Teleporting...", 500, false)
@@ -349,6 +348,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.pill3, function (sprite, otherSp
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Killer, function (sprite, otherSprite) {
     game.over(false, effects.smiles)
 })
+info.onScore(300, function () {
+    info.setScore(0)
+    game.over(true)
+})
 sprites.onOverlap(SpriteKind.P2, SpriteKind.C2, function (sprite, otherSprite) {
     tiles.setCurrentTilemap(tilemap`level5`)
     scene.cameraShake(6, 5000)
@@ -395,6 +398,7 @@ sprites.onOverlap(SpriteKind.P2, SpriteKind.C2, function (sprite, otherSprite) {
         `, SpriteKind.reward2)
     tiles.placeOnRandomTile(pill4, sprites.dungeon.collectibleInsignia)
     tiles.placeOnTile(reward2, tiles.getTileLocation(10, 9))
+    tiles.placeOnRandomTile(coin2, sprites.dungeon.darkGroundCenter)
 })
 sprites.onOverlap(SpriteKind.P2, SpriteKind.K2, function (sprite, otherSprite) {
     game.over(false, effects.smiles)
@@ -430,9 +434,6 @@ sprites.onOverlap(SpriteKind.P2, SpriteKind.pill4, function (sprite, otherSprite
     K2.setBounceOnWall(true)
     reward2.destroy()
     Key.destroy()
-})
-info.onScore(100, function () {
-    game.over(true)
 })
 sprites.onOverlap(SpriteKind.barrier, SpriteKind.P2, function (sprite, otherSprite) {
     tiles.placeOnTile(Runner2, tiles.getTileLocation(7, 9))
@@ -478,15 +479,17 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Chase, function (sprite, otherSp
         . . . . . b b b b b b . . . . . 
         `, SpriteKind.Orb)
     tiles.placeOnTile(reward, tiles.getTileLocation(14, 14))
+    tiles.placeOnRandomTile(coins, assets.tile`transparency16`)
 })
 sprites.onOverlap(SpriteKind.P2, SpriteKind.reward2, function (sprite, otherSprite) {
     game.over(true)
 })
 sprites.onOverlap(SpriteKind.God, SpriteKind.K2, function (sprite, otherSprite) {
     K2.destroy(effects.smiles, 2000)
-    info.changeScoreBy(98)
+    info.changeScoreBy(298)
 })
 let KillerKiller: Sprite = null
+let Ghost: Sprite = null
 let barrier: Sprite = null
 let pill4: Sprite = null
 let reward2: Sprite = null
@@ -495,7 +498,6 @@ let K2: Sprite = null
 let C2: Sprite = null
 let Runner2: Sprite = null
 let coin2: Sprite = null
-let Ghost: Sprite = null
 let coins: Sprite = null
 let pill3: Sprite = null
 let pill2: Sprite = null
